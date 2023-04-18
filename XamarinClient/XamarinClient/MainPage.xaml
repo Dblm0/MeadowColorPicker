@@ -7,7 +7,12 @@
     <ContentPage.BindingContext>
         <local:ViewModel/>
     </ContentPage.BindingContext>
-    <Grid>
-        <color:ColorTriangle SelectedColor="{Binding SelectedColor,Mode=OneWayToSource}"/>
-    </Grid>
+    <StackLayout Margin="15">
+        <Picker Title="Select UDP Broadcast Interface"
+                ItemsSource="{Binding NetworkNames}"
+                SelectedItem="{Binding SelectedNwName}">
+        </Picker>
+        <color:ColorTriangle SelectedColor="{Binding SelectedColor,Mode=OneWayToSource}"
+                             VerticalOptions="CenterAndExpand"/>
+    </StackLayout>
 </ContentPage>
