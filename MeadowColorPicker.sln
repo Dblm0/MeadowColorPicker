@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeadowColorPicker", "MeadowColorPicker\MeadowColorPicker.csproj", "{BB8F0EB8-6695-484B-8883-74FC90DC902C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8F0EB8-6695-484B-8883-74FC90DC902C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AF706E6-B555-47C7-BB23-268FD2208179}
+	EndGlobalSection
+EndGlobal
