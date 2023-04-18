@@ -38,7 +38,8 @@ namespace MeadowColorPicker
         {
             Device.InitWiFiAdapter().Wait();
             _onboardLed.StartPulse(Color.Yellow);
-            var connectionResult = Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD).ConnectionStatus;
+            var connectionResult = Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD)
+                .GetAwaiter().GetResult().ConnectionStatus;
             bool connected = connectionResult == Meadow.Gateway.WiFi.ConnectionStatus.Success;
             _onboardLed.Stop();
             _onboardLed.SetColor(connected ? Color.Green : Color.Red);
@@ -46,7 +47,7 @@ namespace MeadowColorPicker
         }
         void ListenUDP()
         {
-            var endpoint = new IPEndPoint(IPAddress.Any, UDP_PORT);          
+            var endpoint = new IPEndPoint(IPAddress.Any, UDP_PORT);
             UdpClient client = new UdpClient(UDP_PORT);
             while (true)
             {
