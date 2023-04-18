@@ -3,47 +3,62 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
+using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 
 namespace MeadowColorPicker
 {
-    public class MeadowApp : App<F7Micro, MeadowApp>
+    public class MeadowApp : App<F7FeatherV1>
     {
         RgbPwmLed _onboardLed;
         const int UDP_PORT = 4444;
-        public MeadowApp()
+
+        public override async Task Run()
         {
-            Initialize();
-            if (WifiConnect())
+            _onboardLed.StartPulse(Color.Yellow);
+            var connected = await WifiConnect();
+            _onboardLed.Stop();
+            _onboardLed.SetColor(connected ? Color.Green : Color.Red);
+
+            if (connected)
             {
                 ListenUDP();
             }
+
+            await base.Run();
         }
 
-        void Initialize()
+        public override Task Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
-            _onboardLed = new RgbPwmLed(device: Device,
+            _onboardLed = new RgbPwmLed(
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue,
-                3.3f, 3.3f, 3.3f,
-                Meadow.Peripherals.Leds.IRgbLed.CommonType.CommonAnode);
+                CommonType.CommonAnode);
+            return base.Run();
         }
-        bool WifiConnect()
+
+        async Task<bool> WifiConnect()
         {
-            _onboardLed.StartPulse(Color.Yellow);
-            var connectionResult = Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD)
-                .GetAwaiter().GetResult().ConnectionStatus;
-            bool connected = connectionResult == Meadow.Gateway.WiFi.ConnectionStatus.Success;
-            _onboardLed.Stop();
-            _onboardLed.SetColor(connected ? Color.Green : Color.Red);
-            return connected;
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+            try
+            {
+                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
+
         void ListenUDP()
         {
             var endpoint = new IPEndPoint(IPAddress.Any, UDP_PORT);
@@ -52,7 +67,6 @@ namespace MeadowColorPicker
             {
                 var result = client.Receive(ref endpoint);
                 var message = Encoding.ASCII.GetString(result);
-                //Console.WriteLine(message);
                 _onboardLed.SetColor(Color.FromHex(message));
                 Thread.Sleep(0);
             }
