@@ -36,7 +36,6 @@ namespace MeadowColorPicker
         }
         bool WifiConnect()
         {
-            Device.InitWiFiAdapter().Wait();
             _onboardLed.StartPulse(Color.Yellow);
             var connectionResult = Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD)
                 .GetAwaiter().GetResult().ConnectionStatus;
